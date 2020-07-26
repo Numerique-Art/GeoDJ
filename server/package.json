@@ -1,0 +1,20 @@
+{
+  "name": "geodj-api-server",
+  "version": "0.0.1",
+  "description": "Une api rest pour la webapp GeoDJ",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "nodemon server.js"
+  },
+  "keywords": [
+    "rest-api",
+    "geographic",
+    "localisation"
+  ],
+  "author": "Mahad.O.H",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
