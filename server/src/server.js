@@ -4,10 +4,12 @@ const { createDBConnection } = require('./models/dbConnection');
 createDBConnection(config.db)
     .then((client) => {
         const express = require('express');
-        const app = express();
         const { homeRouter } = require('./routes');
+        const helmet = require('helmet');
+        const app = express();
 
         // Middlewares
+        app.use(helmet());
         app.use(express.urlencoded({ extended: true }));
         app.use(express.json());
 
