@@ -1,11 +1,24 @@
 const config = require('./configs');
+const { createDBConnection } = require('./models/dbConnection');
 
-const express = require('express');
-const app = express();
-const { homeRouter } = require('./routes');
+createDBConnection(config.db)
+    .then((client) => {
+        const express = require('express');
+        const app = express();
+        const { homeRouter } = require('./routes');
 
-app.use('/', homeRouter);
+        // Middlewares
+        app.use(express.urlencoded({ extended: true }));
+        app.use(express.json());
 
-app.listen(config.port, () => {
-    console.log(`Server is listening at ${config.port}`);
-});
+        // Routers
+        app.use('/api', homeRouter);
+
+        // Starting the server ...
+        app.listen(config.port, () => {
+            console.log(`Server is listening at ${config.port}`);
+        });
+    })
+    .catch((err) => {
+        console.error(`Database error connection : ${err}`);
+    });

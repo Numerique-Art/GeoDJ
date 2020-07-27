@@ -1,7 +1,6 @@
 class HomeController {
   
   index(req,res){
-    
     res.status(200).send('Hi from HomeController !');
   
   }
