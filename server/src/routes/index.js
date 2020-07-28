@@ -1,4 +1,4 @@
-const  homeRouter = require('./home.route');
+const  homeRouter = require('./geoDjApi.route');
 
 module.exports = {
   homeRouter

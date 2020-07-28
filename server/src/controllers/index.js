@@ -1,3 +1,3 @@
-const { HomeController } = require('./HomeController');
+const { HomeController } = require('./geoDjApi.ctl');
 
 module.exports = { HomeController };
