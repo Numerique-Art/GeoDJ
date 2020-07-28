@@ -16,11 +16,19 @@ createDBConnection(config.db)
         // Routers
         app.use('/api', homeRouter);
 
+        // End connection test to the database
+        client.end();
+
         // Starting the server ...
         app.listen(config.port, () => {
             console.log(`Server is listening at ${config.port}`);
         });
+
     })
     .catch((err) => {
-        console.error(`Database error connection : ${err}`);
+        console.log(err);
+        if(err.code)
+            console.error(`Node error: ${err}`);
+        else
+            console.error(`Database error connection: ${err}`);
     });
