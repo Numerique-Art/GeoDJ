@@ -1,4 +1,4 @@
-const { Village } = require('../services/village.srv');
+const { Village, Ville } = require('../services');
 
 class GeoDJApiController {
   
@@ -8,13 +8,25 @@ class GeoDJApiController {
 
   index(req,res){
 
-    Village.getAll(this.db)
-    .then(rows => res.status(200).json(rows))
+  let villes, villages;
+
+  Village.getAll(this.db)
+    .then(rows => {
+      villages = rows
+    })
     .catch(err => next(err));
-    
-    
+  
+  Ville.getAll(this.db)
+    .then(rows => {
+      villes = rows.slice();
+    })
+    .catch(err => console.error(err));
+
+  res.status(200).json(villes);
   
   }
+
+  
 
   status(req,res){
     res.sendStatus(200);

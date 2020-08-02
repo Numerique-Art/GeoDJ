@@ -26,8 +26,23 @@ createDBConnection(config.db)
         // Routers
         app.use('/api', apiRouter(pool));
 
+        app.use((req, res, next) => {
+            const error = new Error("Not found");
+            error.status = 404;
+            next(error);
+        });
+
+        // Error Handlers
+        app.use(function(err,req,res,next){
+            const code = err.status || 500;
+            res.status(code).json({
+                status: code,
+                message: req.method +' cannot find '+req.originalUrl
+            })
+        })
+
         // End connection test to the database
-        // client.release();
+        client.release();
 
         // Starting the server ...
         app.listen(config.port, () => {

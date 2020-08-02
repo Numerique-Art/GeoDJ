@@ -1,4 +1,4 @@
-const { getVillages, getVillageById } = require('../models/village.model');
+const { getVilles, getVilleById } = require('../models/ville.model');
 
 async function getAll(db){
 
@@ -6,7 +6,7 @@ async function getAll(db){
 
     const client = await db.connect();
     
-    const data = await getVillages(client);
+    const data = await getVilles(client);
 
     if(data)
       return data.rows;
@@ -26,7 +26,7 @@ async function getById(db,id){
 
     const client = await db.connect();
     
-    const data = await getVillageById(id,client);
+    const data = await getVilleById(id,client);
 
     if(data)
       return data.rows;
@@ -40,6 +40,6 @@ async function getById(db,id){
   }
 }
 
-const Village = { getAll, getById };
+const Ville = { getAll, getById };
 
-module.exports = { Village };
+module.exports = { Ville };
