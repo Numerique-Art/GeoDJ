@@ -2,11 +2,21 @@ const config = require('./configs');
 const { createDBConnection } = require('./models/dbConnection');
 
 createDBConnection(config.db)
-    .then((client) => {
+    .then(({client,pool}) => {
         const express = require('express');
-        const { homeRouter } = require('./routes');
         const helmet = require('helmet');
         const app = express();
+        
+        const { apiRouter } = require('./routes');
+        // Models testing 
+        const { getVillages, getVillageById } = require('./models/village.model');
+
+        // getVillageById(1,client)
+        // .then(res => {
+        //     console.log(res.rows);
+        //     client.release();
+        // })
+        // .catch(err => console.log(err));
 
         // Middlewares
         app.use(helmet());
@@ -14,10 +24,10 @@ createDBConnection(config.db)
         app.use(express.json());
 
         // Routers
-        app.use('/api', homeRouter);
+        app.use('/api', apiRouter(pool));
 
         // End connection test to the database
-        client.end();
+        // client.release();
 
         // Starting the server ...
         app.listen(config.port, () => {

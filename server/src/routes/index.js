@@ -1,5 +1,5 @@
-const  homeRouter = require('./geoDjApi.route');
+const  apiRouter = require('./geoDjApi.route');
 
 module.exports = {
-  homeRouter
+  apiRouter
 };

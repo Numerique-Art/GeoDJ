@@ -1,7 +1,18 @@
-class HomeController {
+const { Village } = require('../services/village.srv');
+
+class GeoDJApiController {
   
+  constructor(dbConnection) {
+    this.db = dbConnection;
+  }
+
   index(req,res){
-    res.status(200).send('Hi from HomeController !');
+
+    Village.getAll(this.db)
+    .then(rows => res.status(200).json(rows))
+    .catch(err => next(err));
+    
+    
   
   }
 
@@ -11,4 +22,4 @@ class HomeController {
 }
 
 
-module.exports = {HomeController};
+module.exports = { GeoDJApiController };
