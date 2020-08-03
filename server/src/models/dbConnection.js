@@ -1,5 +1,4 @@
 const { Client, Pool } = require('pg');
-const { db } = require('../configs');
 
 function createDBConnection(dbConfig){
   return new Promise((resolve,reject) => {
@@ -17,7 +16,7 @@ function createDBConnection(dbConfig){
     pool.connect()
     .then((client) => resolve({client, pool}))
     .catch(err => reject(err));
-  })
+  });
   
 }
 

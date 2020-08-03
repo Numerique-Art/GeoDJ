@@ -8,15 +8,6 @@ createDBConnection(config.db)
         const app = express();
         
         const { apiRouter } = require('./routes');
-        // Models testing 
-        const { getVillages, getVillageById } = require('./models/village.model');
-
-        // getVillageById(1,client)
-        // .then(res => {
-        //     console.log(res.rows);
-        //     client.release();
-        // })
-        // .catch(err => console.log(err));
 
         // Middlewares
         app.use(helmet());
@@ -35,10 +26,16 @@ createDBConnection(config.db)
         // Error Handlers
         app.use(function(err,req,res,next){
             const code = err.status || 500;
-            res.status(code).json({
-                status: code,
-                message: req.method +' cannot find '+req.originalUrl
-            })
+            if(code === 404)
+                res.status(code).json({
+                    status: code,
+                    message: `${req.method} cannot find ${req.originalUrl}`
+                })
+            else
+                res.status(code).json({
+                    status: code,
+                    message: err.message
+                })
         })
 
         // End connection test to the database

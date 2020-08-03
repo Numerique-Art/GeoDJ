@@ -11,10 +11,18 @@ const route = (dbConnection) => {
   });
 
   router
-  .get('/',(req,res) => ctl.index(req,res))
+  .get('/',(req,res,next) => wrapAsync(ctl.index,req,res,next))
+  .get(['/village','/villages'],(req,res,next) => wrapAsync(ctl.villages,req,res,next))
+  .get('/village/:id',(req,res,next) => wrapAsync(ctl.villageById,req,res,next))
+  .get(['/ville','/villes'],(req,res,next) => wrapAsync(ctl.villes,req,res,next))
+  .get('/ville/:id',(req,res,next) => wrapAsync(ctl.villeById,req,res,next))
   .get('/status',(req,res) => ctl.status(req,res));
 
   return router;
+}
+
+function wrapAsync(func,req,res,next){
+  return func(req,res,next).catch((err) => next(err));
 }
 
 

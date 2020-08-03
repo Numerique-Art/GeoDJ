@@ -2,9 +2,11 @@ const { getVillages, getVillageById } = require('../models/village.model');
 
 async function getAll(db){
 
+  let client;
+
   try {
 
-    const client = await db.connect();
+    client = await db.connect();
     
     const data = await getVillages(client);
 
@@ -16,15 +18,18 @@ async function getAll(db){
     return null;
   } finally {
 
-    client.release();
+    if(client)
+      client.release();
   }
 }
 
 async function getById(db,id){
 
+  let client;
+
   try {
 
-    const client = await db.connect();
+    client = await db.connect();
     
     const data = await getVillageById(id,client);
 
@@ -36,7 +41,8 @@ async function getById(db,id){
     return null;
   } finally {
 
-    client.release();
+    if(client)
+      client.release();
   }
 }
 

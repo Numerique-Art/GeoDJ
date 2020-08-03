@@ -1,43 +1,48 @@
 const { getVilles, getVilleById } = require('../models/ville.model');
 
 async function getAll(db){
+  let client,data;
 
   try {
 
-    const client = await db.connect();
+    client = await db.connect();
     
-    const data = await getVilles(client);
-
-    if(data)
-      return data.rows;
+    data = await getVilles(client);
 
   } catch (err){
 
     return null;
   } finally {
 
-    client.release();
+    if(client)
+      client.release();
   }
+
+  if(data)
+    return data.rows;
 }
 
 async function getById(db,id){
 
+  let client,data;
+
   try {
 
-    const client = await db.connect();
+    client = await db.connect();
     
-    const data = await getVilleById(id,client);
-
-    if(data)
-      return data.rows;
+    data = await getVilleById(id,client);
 
   } catch (err){
 
     return null;
   } finally {
 
-    client.release();
+    if(client)
+      client.release();
   }
+
+  if(data)
+    return data.rows;
 }
 
 const Ville = { getAll, getById };
