@@ -19,7 +19,7 @@ class GeoDJApiController {
         message: _.concat(villes,villages)
       }
 
-      res.status(200).json(jsonData);
+      res.status(jsonData.status).json(jsonData);
     }
   }
 
@@ -33,7 +33,7 @@ class GeoDJApiController {
         message: villages
       }
 
-      res.status(200).json(jsonData);
+      res.status(jsonData.status).json(jsonData);
     }
   }
 
@@ -47,37 +47,58 @@ class GeoDJApiController {
         message: villes
       }
 
-      res.status(200).json(jsonData);
+      res.status(jsonData.status).json(jsonData);
     }
   }
 
   villeById = async (req,res) => {
+    let { id } = req.params;
+    id = Number(id);
 
-    const { id } = req.params;
+    if(_.isNaN(id)){
+      throw new Error('id must be an integer');
+    }
+
     const ville = await Ville.getById(this.db,id);
 
-    if(ville){
+    if(!_.isEmpty(ville)){
       const jsonData = {
         status: 200,
         message: ville
       }
 
-      res.status(200).json(jsonData);
+      res.status(jsonData.status).json(jsonData);
+    } else {
+      res.status(404).json({
+        status: 404,
+        message: `Ville with id ${id} not found in the database`
+      })
     }
   }
 
   villageById = async (req,res) => {
 
-    const { id } = req.params;
+    let { id } = req.params;
+    id = Number(id);
+
+    if(_.isNaN(id)){
+      throw new Error('id must be an integer');
+    }
+
     const village = await Village.getById(this.db,id);
 
-    if(village){
+    if(!_.isEmpty(village)){
       const jsonData = {
         status: 200,
         message: village
       }
 
-      res.status(200).json(jsonData);
+      res.status(jsonData.status).json(jsonData);
+    } else {
+      res.status(404).json({
+        status: 404,
+        message: `Village with id ${id} not found in the database`
+      });
     }
   }
 

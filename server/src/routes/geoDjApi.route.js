@@ -11,7 +11,7 @@ const route = (dbConnection) => {
   });
 
   router
-  .get('/',(req,res,next) => wrapAsync(ctl.index,req,res,next))
+  .get(['/','/all'],(req,res,next) => wrapAsync(ctl.index,req,res,next))
   .get(['/village','/villages'],(req,res,next) => wrapAsync(ctl.villages,req,res,next))
   .get('/village/:id',(req,res,next) => wrapAsync(ctl.villageById,req,res,next))
   .get(['/ville','/villes'],(req,res,next) => wrapAsync(ctl.villes,req,res,next))
