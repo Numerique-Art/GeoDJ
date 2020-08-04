@@ -15,10 +15,3 @@ Le module *server* est une API Rest qui fait des opérations CRUD (Create, Read,
 ## Client
 
 Le module *client* est une interface web codé avec ReactJS. Elle affiche les données GIS stockés dans une base de donnée _PostgreSQL_ et offre une manipulation simple de ces données.
-=======
-Le module du server est une API Rest qui fait des opérations CRUD (Create, Read, Update et DELETE) sur une base de donnée _PostgreSQL_. Ce module est codé en JavaScript avec NodeJS. Les dependances exaustive de ce module sont listés dans le fichier.
-
-## Client
-
-Le module *client* est une interface web codé avec ReactJS. Elle affiche les données GIS stockés dans une base de donnée _PostgreSQL_ et offre une manipulation simple de ces données.
->>>>>>> 13aa8eabb031a2efc0fa7a6312a1fe596a558778
