@@ -6,10 +6,13 @@
   position: fixed;
   top: 0; left: 0;
   transition: width .5s;
+  z-index: 9999;
+  box-sizing: border-box;
 }
 
 .sidebar:hover{
-  width: auto;
+  /* width: auto; */
+  
 }
 
 .sidebar-list{
@@ -34,7 +37,8 @@
 }
 
 .sidebar-list a:hover{
-  background-color: chocolate;
+  color: chocolate;
+  border-left: solid 2px chocolate;
 }
 
 .sidebar-list span{
@@ -44,6 +48,6 @@
   font-size: 1.6rem;
 }
 
-.sidebar:hover span{
+/* .sidebar:hover span{
   display: inline;
-}
+} */
