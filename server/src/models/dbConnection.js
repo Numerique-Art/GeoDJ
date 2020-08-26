@@ -1,23 +1,36 @@
-const { Client, Pool } = require('pg');
+var mysql = require("mysql");
 
-function createDBConnection(dbConfig){
-  return new Promise((resolve,reject) => {
-    const pool = new Pool({
-      user: dbConfig.user,
-      host: dbConfig.host,
-      database: dbConfig.database,
-      password: dbConfig.passwd,
-      port: dbConfig.port,
-      max: 20,
-      idleTimeoutMillis: 30000,
-      connectionTimeoutMillis: 2000,
-    });
-
-    pool.connect()
-    .then((client) => resolve({client, pool}))
-    .catch(err => reject(err));
+function createDbConnection(dbConfig) {
+  var pool = mysql.createPool({
+    connectionLimit: 20,
+    host: dbConfig.host,
+    user: dbConfig.user,
+    password: dbConfig.passwd,
+    database: dbConfig.database,
   });
-  
+
+  try {
+    pool.getConnection(function (err, connection) {
+      if (err) throw err; // not connected!
+      // Use the connection
+      connection.query("SELECT 1 + 1 AS solution", function (
+        error,
+        results,
+        fields
+      ) {
+        // When done with the connection, release it.
+        connection.release();
+
+        // Handle error after the release.
+        if (error) throw error;
+
+        // Don't use the connection here, it has been returned to the pool.
+      });
+    });
+    return pool;
+  } catch (err) {
+    return err;
+  }
 }
 
-module.exports = { createDBConnection };
+module.exports = createDbConnection;

@@ -1,3 +1,3 @@
-const { GeoDJApiController } = require('./geoDjApi.ctl');
+const PlanningApiController = require("./geoDjApi.ctl");
 
-module.exports = { GeoDJApiController };
+module.exports = { PlanningApiController };

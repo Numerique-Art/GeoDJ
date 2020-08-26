@@ -1,16 +1,16 @@
-const env = require('dotenv').config();
+const env = require("dotenv").config();
 
-if(env.error){
+if (env.error) {
   console.error(env.error);
 }
 
 module.exports = {
-  port: parseInt(process.env.PORT,10) || 3000,
+  port: parseInt(process.env.PORT, 10) || 3000,
   db: {
-    host: process.env.PGHOST || 'localhost',
-    user: process.env.PGUSER || 'postgres',
-    passwd: process.env.PGPASSWORD || 'mohackzzz',
-    database: process.env.PGDATABASE || 'postgis_db',
-    port: process.env.PGPORT || '5432'
-  }
+    host: process.env.MYSQL_HOST || "localhost",
+    user: process.env.MYSQL_USER || "postgres",
+    passwd: process.env.MYSQL_PASSWORD || "",
+    database: process.env.MYSQL_DATABASE || "postgis_db",
+    port: process.env.MYSQL_PORT || "5432",
+  },
 };

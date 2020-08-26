@@ -1,56 +1,44 @@
-const config = require('./configs');
-const { createDBConnection } = require('./models/dbConnection');
+const config = require("./configs");
+const dbConnection = require("./models/dbConnection");
 
-createDBConnection(config.db)
-    .then(({client,pool}) => {
-        const express = require('express');
-        const helmet = require('helmet');
-        const app = express();
-        
-        const { apiRouter } = require('./routes');
+const pool = dbConnection(config.db);
 
-        // Middlewares
-        app.use(helmet());
-        app.use(express.urlencoded({ extended: true }));
-        app.use(express.json());
+const express = require("express");
+const helmet = require("helmet");
+const morgan = require("morgan");
+const app = express();
 
-        // Routers
-        app.use('/api', apiRouter(pool));
+const { apiRouter } = require("./routes");
 
-        app.use((req, res, next) => {
-            const error = new Error("Not found");
-            error.status = 404;
-            next(error);
-        });
+// Middlewares
+app.use(helmet());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(morgan("combined"));
 
-        // Error Handlers
-        app.use(function(err,req,res,next){
-            const code = err.status || 500;
-            if(code === 404)
-                res.status(code).json({
-                    status: code,
-                    message: `${req.method} cannot find ${req.originalUrl}`
-                })
-            else
-                res.status(code).json({
-                    status: code,
-                    message: err.message
-                })
-        })
+// Routers
+app.use("/api", apiRouter(pool));
 
-        // End connection test to the database
-        client.release();
+app.use((req, res, next) => {
+  const error = new Error("Not found");
+  error.status = 404;
+  next(error);
+});
 
-        // Starting the server ...
-        app.listen(config.port, () => {
-            console.log(`Server is listening at ${config.port}`);
-        });
-
-    })
-    .catch((err) => {
-        console.log(err);
-        if(err.code)
-            console.error(`Node error: ${err}`);
-        else
-            console.error(`Database error connection: ${err}`);
+// Error Handlers
+app.use(function (err, req, res, next) {
+  const code = err.status || 500;
+  if (code === 404)
+    res.status(code).json({
+      message: `${req.method} cannot find ${req.originalUrl}`,
     });
+  else
+    res.status(code).json({
+      message: err.message,
+    });
+});
+
+// Starting the server ...
+app.listen(config.port, () => {
+  console.log(`Server is listening at ${config.port}`);
+});
